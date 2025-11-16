@@ -108,17 +108,14 @@ function GalleryPage() {
       rootMargin: "0px 0px -50px 0px",
     };
 
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-in");
-            observerRef.current.unobserve(entry.target);
-          }
-        });
-      },
-      observerOptions
-    );
+    observerRef.current = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-in");
+          observerRef.current.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
 
     // Observe all gallery items
     const items = document.querySelectorAll(".gallery-grid-item");
