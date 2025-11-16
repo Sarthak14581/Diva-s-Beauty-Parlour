@@ -89,7 +89,7 @@ function ContactPage() {
   ];
 
   return (
-    <div className="contact-page">
+    <div className="contact-page" style={{ isolation: "isolate" }}>
       {/* Page Header */}
       <section className="contact-hero">
         <div className="container">
@@ -107,7 +107,11 @@ function ContactPage() {
         <div className="container">
           <div className="contact-info-grid">
             {contactInfo.map((info, index) => (
-              <div key={index} className="contact-info-card glass">
+              <div
+                key={index}
+                className="contact-info-card glass"
+                style={{ opacity: 1, visibility: "visible" }}
+              >
                 <div className="contact-info-icon">{info.icon}</div>
                 <h3 className="contact-info-title">{info.title}</h3>
                 {info.details.map((detail, idx) => (

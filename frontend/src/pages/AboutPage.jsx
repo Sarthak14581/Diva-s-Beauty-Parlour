@@ -89,7 +89,7 @@ function AboutPage() {
   ];
 
   return (
-    <div className="about-page">
+    <div className="about-page" style={{ isolation: "isolate" }}>
       {/* Owner Intro Section */}
       <section className="owner-intro-section">
         <div className="container">
@@ -165,7 +165,7 @@ function AboutPage() {
               <div
                 key={index}
                 className="credential-card glass"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                style={{ opacity: 1, visibility: "visible" }}
               >
                 <div className="credential-icon">{cred.icon}</div>
                 <h3 className="credential-title">{cred.title}</h3>
@@ -224,7 +224,7 @@ function AboutPage() {
               <div
                 key={index}
                 className="about-testimonial-card glass"
-                style={{ animationDelay: `${index * 0.15}s` }}
+                style={{ opacity: 1, visibility: "visible" }}
               >
                 <div className="testimonial-stars">⭐⭐⭐⭐⭐</div>
                 <p className="testimonial-quote">"{testimonial.text}"</p>

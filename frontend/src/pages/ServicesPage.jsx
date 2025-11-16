@@ -135,7 +135,7 @@ function ServicesPage() {
   ];
 
   return (
-    <div className="services-page">
+    <div className="services-page" style={{ isolation: "isolate" }}>
       {/* Page Header */}
       <section className="services-hero">
         <div className="container">
@@ -154,7 +154,11 @@ function ServicesPage() {
         <div className="container">
           <div className="services-main-grid">
             {mainServices.map((service, index) => (
-              <div key={index} className="service-main-card glass">
+              <div
+                key={index}
+                className="service-main-card glass"
+                style={{ opacity: 1, visibility: "visible" }}
+              >
                 <div className="service-main-icon">{service.icon}</div>
                 <h3 className="service-main-title">{service.title}</h3>
                 <p className="service-main-description">

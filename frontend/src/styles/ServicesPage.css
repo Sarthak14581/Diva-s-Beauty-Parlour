@@ -3,13 +3,37 @@
   position: relative;
   min-height: 100vh;
   padding-top: 80px;
-  background: #EEE9F4;
 }
 
-/* Remove the complex background layers - keep it simple */
-.services-page::before,
+.services-page::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(233, 168, 179, 0.75), rgba(238, 233, 244, 0.85)),
+              url('https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=1920&q=80') center/cover no-repeat fixed;
+  background-blend-mode: overlay;
+  z-index: -1;
+}
+
 .services-page::after {
-  display: none;
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 30%, rgba(233, 168, 179, 0.2), transparent 50%),
+              radial-gradient(circle at 80% 70%, rgba(209, 108, 128, 0.15), transparent 50%);
+  z-index: -1;
+  animation: subtleGlow 12s ease-in-out infinite;
+}
+
+@keyframes subtleGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 
 /* Hero Section */
@@ -88,6 +112,7 @@
   display: flex;
   flex-direction: column;
   min-height: 460px;
+  /* Fully visible immediately */
 }
 
 .service-main-card::before {

@@ -1,0 +1,73 @@
+/* Prevent FOUC (Flash of Unstyled Content) */
+html {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* CRITICAL: Prevent FOUC - Must be first */
+html {
+  visibility: visible !important;
+}
+
+/* Critical: Prevent FOUC - Must be at the top */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Force immediate backdrop-filter support */
+@supports (backdrop-filter: blur(10px)) {
+  .glass,
+  [class*="card"],
+  [class*="-card"],
+  .credential-card,
+  .contact-info-card,
+  .about-testimonial-card,
+  .service-main-card {
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+  }
+}
+
+/* Ensure all cards render with opacity immediately */
+.credential-card,
+.contact-info-card,
+.about-testimonial-card,
+.service-main-card,
+.addon-card,
+.faq-item {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Force hardware acceleration for glassmorphic elements */
+.glass,
+[class*="card"],
+[class*="-card"],
+[class*="glass"] {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize backdrop-filter rendering */
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+  .glass,
+  [class*="card"],
+  [class*="-card"] {
+    will-change: auto;
+    isolation: isolate;
+  }
+}
+
+/* Ensure backdrop-filter is applied immediately */
+.glass,
+[class*="card"],
+[class*="glass"] {
+  will-change: backdrop-filter;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
+}
