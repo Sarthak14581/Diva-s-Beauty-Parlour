@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "../styles/GalleryPage.css";
 
 function GalleryPage() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [lightboxImage, setLightboxImage] = useState(null);
+  const observerRef = useRef(null);
 
   const galleryItems = [
     {
@@ -100,6 +101,38 @@ function GalleryPage() {
       ? galleryItems
       : galleryItems.filter((item) => item.category === activeFilter);
 
+  // Scroll Animation Observer
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    };
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-in");
+            observerRef.current.unobserve(entry.target);
+          }
+        });
+      },
+      observerOptions
+    );
+
+    // Observe all gallery items
+    const items = document.querySelectorAll(".gallery-grid-item");
+    items.forEach((item) => {
+      observerRef.current.observe(item);
+    });
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [filteredItems]);
+
   const openLightbox = (image) => {
     setLightboxImage(image);
     document.body.style.overflow = "hidden";
@@ -151,7 +184,7 @@ function GalleryPage() {
               <div
                 key={item.id}
                 className="gallery-grid-item glass"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                data-index={index}
                 onClick={() => openLightbox(item)}
               >
                 <img

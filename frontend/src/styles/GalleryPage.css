@@ -152,8 +152,36 @@
               0 0 0 1px rgba(255, 255, 255, 0.25) inset,
               0 4px 20px rgba(255, 255, 255, 0.5);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  animation: fadeInUp 0.6s ease-out both;
+  
+  /* Initial state for scroll animation */
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  filter: blur(5px);
 }
+
+/* Animated state when in view */
+.gallery-grid-item.animate-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.6s ease-out;
+}
+
+/* Staggered delay based on index */
+.gallery-grid-item[data-index="0"].animate-in { transition-delay: 0s; }
+.gallery-grid-item[data-index="1"].animate-in { transition-delay: 0.1s; }
+.gallery-grid-item[data-index="2"].animate-in { transition-delay: 0.2s; }
+.gallery-grid-item[data-index="3"].animate-in { transition-delay: 0.1s; }
+.gallery-grid-item[data-index="4"].animate-in { transition-delay: 0.2s; }
+.gallery-grid-item[data-index="5"].animate-in { transition-delay: 0.3s; }
+.gallery-grid-item[data-index="6"].animate-in { transition-delay: 0.1s; }
+.gallery-grid-item[data-index="7"].animate-in { transition-delay: 0.2s; }
+.gallery-grid-item[data-index="8"].animate-in { transition-delay: 0.3s; }
+.gallery-grid-item[data-index="9"].animate-in { transition-delay: 0.1s; }
+.gallery-grid-item[data-index="10"].animate-in { transition-delay: 0.2s; }
+.gallery-grid-item[data-index="11"].animate-in { transition-delay: 0.3s; }
 
 .gallery-grid-item:hover {
   transform: translateY(-8px) scale(1.02);
@@ -413,6 +441,19 @@
 
   .gallery-grid-item {
     aspect-ratio: 3/4;
+    transform: translateY(30px) scale(0.97);
+    filter: blur(3px);
+  }
+
+  .gallery-grid-item.animate-in {
+    transition: opacity 0.6s ease-out,
+                transform 0.6s ease-out,
+                filter 0.5s ease-out;
+  }
+
+  /* Reduce stagger delays on mobile */
+  .gallery-grid-item[data-index].animate-in {
+    transition-delay: 0s;
   }
 
   .lightbox-close {
@@ -420,5 +461,20 @@
     width: 35px;
     height: 35px;
     font-size: 1.5rem;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .gallery-grid-item {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    animation: none;
+    transition: none;
+  }
+
+  .gallery-grid-item.animate-in {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
   }
 }
