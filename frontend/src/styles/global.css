@@ -1,0 +1,104 @@
+:root {
+  /* Color Palette */
+  --primary: #E9A8B3;
+  --secondary: #F7DDE2;
+  --accent: #D16C80;
+  --bg-light: #F6F4F6;
+  --bg-soft: #EEE9F4;
+  --text-dark: #2B2B2B;
+  --text-soft: #6F6F6F;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #E9A8B3, #F7DDE2);
+  --gradient-hero: linear-gradient(135deg, #E9A8B3, #EEE9F4);
+  --gradient-accent: linear-gradient(135deg, #D16C80, #F7DDE2);
+  
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 3rem;
+  --spacing-xl: 5rem;
+  
+  /* Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Playfair Display', serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism utility class */
+.glass {
+  background: rgba(255, 255, 255, 0.40);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px) saturate(180%);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.10);
+  border-radius: 20px;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-sm);
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Buttons base (specific styling will be in components) */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Mobile-first responsive breakpoints */
+@media (min-width: 768px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
+}

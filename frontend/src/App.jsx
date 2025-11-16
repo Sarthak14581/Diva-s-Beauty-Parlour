@@ -1,0 +1,37 @@
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+
+// Page imports (to be created)
+import HomePage from "./pages/HomePage";
+import ServicesPage from "./pages/ServicesPage";
+import BookingPage from "./pages/BookingPage";
+import GalleryPage from "./pages/GalleryPage";
+import AboutPage from "./pages/AboutPage";
+import PricingPage from "./pages/PricingPage";
+import TestimonialsPage from "./pages/TestimonialsPage";
+import ContactPage from "./pages/ContactPage";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminLogin from "./pages/admin/AdminLogin";
+import NotFound from "./pages/NotFound";
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route path="services" element={<ServicesPage />} />
+        <Route path="booking" element={<BookingPage />} />
+        <Route path="gallery" element={<GalleryPage />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="pricing" element={<PricingPage />} />
+        <Route path="testimonials" element={<TestimonialsPage />} />
+        <Route path="contact" element={<ContactPage />} />
+        <Route path="admin/login" element={<AdminLogin />} />
+        <Route path="admin/dashboard" element={<AdminDashboard />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  );
+}
+
+export default App;
