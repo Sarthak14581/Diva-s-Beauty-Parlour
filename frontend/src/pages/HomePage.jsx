@@ -1,7 +1,37 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/HomePage.css";
 
 function HomePage() {
+  const navigate = useNavigate();
+  const whatsappNumber = "7397966346";
+
+  const sendToWhatsApp = ({
+    service = "",
+    date = "",
+    time = "",
+    name = "",
+    phone = "",
+    notes = "",
+  } = {}) => {
+    const message = `Hello! I would like to book an appointment.
+
+Service: ${service || "Not specified"}
+Date: ${date || "Not selected"}
+Time: ${time || "Not selected"}
+
+Name: ${name || "Not provided"}
+Phone: ${phone || "Not provided"}
+
+Notes: ${notes || "N/A"}
+
+Thank you! ❤️`;
+
+    const url = `https://api.whatsapp.com/send?phone=91${whatsappNumber}&text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
+
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -39,7 +69,14 @@ function HomePage() {
               <div className="highlight-icon">💬</div>
               <h3>WhatsApp Us</h3>
               <p>Quick booking & queries</p>
-              <a href="https://wa.me/1234567890" className="whatsapp-link">
+              <a
+                href="https://wa.me/1234567890"
+                className="whatsapp-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  sendToWhatsApp();
+                }}
+              >
                 +1 234 567 890
               </a>
             </div>
@@ -62,9 +99,14 @@ function HomePage() {
               <h3>Hair Care</h3>
               <p>Cuts, styling, coloring, and treatments for gorgeous hair</p>
               <span className="service-price">From $30</span>
-              <Link to="/booking" className="btn-secondary">
+              <button
+                onClick={() =>
+                  navigate("/booking", { state: { serviceName: "Haircut" } })
+                }
+                className="btn-secondary"
+              >
                 Book Now
-              </Link>
+              </button>
             </div>
             <div className="service-card glass">
               <div className="service-icon">✨</div>
@@ -73,27 +115,42 @@ function HomePage() {
                 Facials, peels, and rejuvenating treatments for radiant skin
               </p>
               <span className="service-price">From $45</span>
-              <Link to="/booking" className="btn-secondary">
+              <button
+                onClick={() =>
+                  navigate("/booking", { state: { serviceName: "Facial" } })
+                }
+                className="btn-secondary"
+              >
                 Book Now
-              </Link>
+              </button>
             </div>
             <div className="service-card glass">
               <div className="service-icon">💄</div>
               <h3>Makeup</h3>
               <p>Bridal, party, and everyday makeup for any occasion</p>
               <span className="service-price">From $50</span>
-              <Link to="/booking" className="btn-secondary">
+              <button
+                onClick={() =>
+                  navigate("/booking", { state: { serviceName: "Makeup" } })
+                }
+                className="btn-secondary"
+              >
                 Book Now
-              </Link>
+              </button>
             </div>
             <div className="service-card glass">
               <div className="service-icon">💅</div>
               <h3>Nail Care</h3>
               <p>Manicures, pedicures, nail art, and extensions</p>
               <span className="service-price">From $25</span>
-              <Link to="/booking" className="btn-secondary">
+              <button
+                onClick={() =>
+                  navigate("/booking", { state: { serviceName: "Nail Art" } })
+                }
+                className="btn-secondary"
+              >
                 Book Now
-              </Link>
+              </button>
             </div>
           </div>
           <div className="view-all-services">
@@ -226,9 +283,9 @@ function HomePage() {
               <Link to="/booking" className="btn-primary">
                 Book Appointment
               </Link>
-              <a href="https://wa.me/1234567890" className="btn-whatsapp">
+              <button onClick={() => sendToWhatsApp()} className="btn-whatsapp">
                 WhatsApp Us
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -239,9 +296,12 @@ function HomePage() {
         <Link to="/booking" className="sticky-book-btn">
           Book Now
         </Link>
-        <a href="https://wa.me/1234567890" className="sticky-whatsapp-btn">
+        <button
+          onClick={() => sendToWhatsApp()}
+          className="sticky-whatsapp-btn"
+        >
           WhatsApp
-        </a>
+        </button>
       </div>
     </div>
   );

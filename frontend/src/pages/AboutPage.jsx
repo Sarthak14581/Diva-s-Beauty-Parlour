@@ -1,9 +1,38 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/AboutPage.css";
 
 function AboutPage() {
+  const navigate = useNavigate();
   const observerRef = useRef(null);
+  const whatsappNumber = "7397966346";
+
+  const sendToWhatsApp = ({
+    service = "",
+    date = "",
+    time = "",
+    name = "",
+    phone = "",
+    notes = "",
+  } = {}) => {
+    const message = `Hello! I would like to book an appointment.
+
+Service: ${service || "Not specified"}
+Date: ${date || "Not selected"}
+Time: ${time || "Not selected"}
+
+Name: ${name || "Not provided"}
+Phone: ${phone || "Not provided"}
+
+Notes: ${notes || "N/A"}
+
+Thank you! ❤️`.trim();
+
+    const url = `https://api.whatsapp.com/send?phone=91${whatsappNumber}&text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
 
   // Scroll Animation Observer
   useEffect(() => {
@@ -248,12 +277,15 @@ function AboutPage() {
               today!
             </p>
             <div className="about-cta-buttons">
-              <Link to="/booking" className="btn-primary">
+              <button
+                onClick={() => navigate("/booking")}
+                className="btn-primary"
+              >
                 Book Appointment
-              </Link>
-              <a href="https://wa.me/1234567890" className="btn-whatsapp">
+              </button>
+              <button onClick={() => sendToWhatsApp()} className="btn-whatsapp">
                 WhatsApp Me
-              </a>
+              </button>
             </div>
           </div>
         </div>

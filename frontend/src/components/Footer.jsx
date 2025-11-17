@@ -4,6 +4,7 @@ import "../styles/Footer.css";
 
 function Footer() {
   const observerRef = useRef(null);
+  const whatsappNumber = "7397966346"; // Just the 10-digit number
 
   // Scroll Animation Observer
   useEffect(() => {
@@ -31,6 +32,16 @@ function Footer() {
       }
     };
   }, []);
+
+  const sendToWhatsApp = () => {
+    const message =
+      "Hello! I would like to inquire about your beauty services. Thank you! ❤️";
+    // Try using api.whatsapp.com instead
+    const url = `https://api.whatsapp.com/send?phone=91${whatsappNumber}&text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
 
   return (
     <footer className="footer">
@@ -91,7 +102,16 @@ function Footer() {
                 </li>
                 <li>
                   <span className="footer-icon">💬</span>
-                  <a href="https://wa.me/1234567890">WhatsApp Us</a>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      sendToWhatsApp();
+                    }}
+                    className="footer-whatsapp-link"
+                  >
+                    WhatsApp Us
+                  </a>
                 </li>
                 <li>
                   <span className="footer-icon">⏰</span>
@@ -130,10 +150,12 @@ function Footer() {
                   <span className="social-label">Facebook</span>
                 </a>
                 <a
-                  href="https://wa.me/1234567890"
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    sendToWhatsApp();
+                  }}
                   className="social-icon glass"
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   <span>💬</span>
                   <span className="social-label">WhatsApp</span>

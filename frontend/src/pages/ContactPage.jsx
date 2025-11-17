@@ -11,6 +11,37 @@ function ContactPage() {
     message: "",
   });
 
+  const whatsappNumber = "917397966346";
+
+  const sendToWhatsApp = ({
+    service = "",
+    date = "",
+    time = "",
+    name = "",
+    phone = "",
+    notes = "",
+  } = {}) => {
+    const message = `
+Hello! I would like to book an appointment.
+
+Service: ${service || "Not specified"}
+Date: ${date || "Not selected"}
+Time: ${time || "Not selected"}
+
+Name: ${name || "Not provided"}
+Phone: ${phone || "Not provided"}
+
+Notes: ${notes || "N/A"}
+
+Thank you! ❤️
+`.trim();
+
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
+
   // Scroll Animation Observer
   useEffect(() => {
     const observerOptions = {
@@ -238,9 +269,9 @@ function ContactPage() {
               <Link to="/booking" className="btn-primary">
                 Book Appointment
               </Link>
-              <a href="https://wa.me/1234567890" className="btn-whatsapp">
+              <button onClick={() => sendToWhatsApp()} className="btn-whatsapp">
                 WhatsApp Us
-              </a>
+              </button>
             </div>
           </div>
         </div>

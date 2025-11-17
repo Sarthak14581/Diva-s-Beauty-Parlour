@@ -1,9 +1,38 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/ServicesPage.css";
 
 function ServicesPage() {
+  const navigate = useNavigate();
   const [openFAQ, setOpenFAQ] = useState(null);
+  const whatsappNumber = "7397966346";
+
+  const sendToWhatsApp = ({
+    service = "",
+    date = "",
+    time = "",
+    name = "",
+    phone = "",
+    notes = "",
+  } = {}) => {
+    const message = `Hello! I would like to book an appointment.
+
+Service: ${service || "Not specified"}
+Date: ${date || "Not selected"}
+Time: ${time || "Not selected"}
+
+Name: ${name || "Not provided"}
+Phone: ${phone || "Not provided"}
+
+Notes: ${notes || "N/A"}
+
+Thank you! ❤️`.trim();
+
+    const url = `https://api.whatsapp.com/send?phone=91${whatsappNumber}&text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
 
   const toggleFAQ = (index) => {
     setOpenFAQ(openFAQ === index ? null : index);
@@ -171,9 +200,16 @@ function ServicesPage() {
                 </ul>
                 <div className="service-main-footer">
                   <span className="service-main-price">{service.price}</span>
-                  <Link to="/booking" className="btn-service">
+                  <button
+                    onClick={() =>
+                      navigate("/booking", {
+                        state: { serviceName: service.title },
+                      })
+                    }
+                    className="btn-service"
+                  >
                     Book Now
-                  </Link>
+                  </button>
                 </div>
               </div>
             ))}
@@ -196,9 +232,16 @@ function ServicesPage() {
                 <div className="addon-icon">{addon.icon}</div>
                 <h4 className="addon-title">{addon.title}</h4>
                 <span className="addon-price">{addon.price}</span>
-                <Link to="/booking" className="btn-addon">
+                <button
+                  onClick={() =>
+                    navigate("/booking", {
+                      state: { serviceName: addon.title },
+                    })
+                  }
+                  className="btn-addon"
+                >
                   Add to Booking
-                </Link>
+                </button>
               </div>
             ))}
           </div>
@@ -252,9 +295,9 @@ function ServicesPage() {
               <Link to="/booking" className="btn-primary">
                 Book Appointment
               </Link>
-              <a href="https://wa.me/1234567890" className="btn-whatsapp">
+              <button onClick={() => sendToWhatsApp()} className="btn-whatsapp">
                 WhatsApp Us
-              </a>
+              </button>
             </div>
           </div>
         </div>

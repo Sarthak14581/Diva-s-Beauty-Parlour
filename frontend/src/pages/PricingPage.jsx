@@ -1,10 +1,39 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/PricingPage.css";
 
 function PricingPage() {
+  const navigate = useNavigate();
   const observerRef = useRef(null);
   const [openCategory, setOpenCategory] = useState(null);
+  const whatsappNumber = "7397966346";
+
+  const sendToWhatsApp = ({
+    service = "",
+    date = "",
+    time = "",
+    name = "",
+    phone = "",
+    notes = "",
+  } = {}) => {
+    const message = `Hello! I would like to book an appointment.
+
+Service: ${service || "Not specified"}
+Date: ${date || "Not selected"}
+Time: ${time || "Not selected"}
+
+Name: ${name || "Not provided"}
+Phone: ${phone || "Not provided"}
+
+Notes: ${notes || "N/A"}
+
+Thank you! ❤️`.trim();
+
+    const url = `https://api.whatsapp.com/send?phone=91${whatsappNumber}&text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  };
 
   // Scroll Animation Observer
   useEffect(() => {
@@ -214,9 +243,16 @@ function PricingPage() {
                     ))}
                   </ul>
                 </div>
-                <Link to="/booking" className="btn-category">
+                <button
+                  onClick={() =>
+                    navigate("/booking", {
+                      state: { serviceName: category.title },
+                    })
+                  }
+                  className="btn-category"
+                >
                   Book Now
-                </Link>
+                </button>
               </div>
             ))}
           </div>
@@ -254,9 +290,14 @@ function PricingPage() {
                   ))}
                 </ul>
                 <div className="package-price">{pkg.price}</div>
-                <Link to="/booking" className="btn-package">
+                <button
+                  onClick={() =>
+                    navigate("/booking", { state: { serviceName: pkg.title } })
+                  }
+                  className="btn-package"
+                >
                   Book Package
-                </Link>
+                </button>
               </div>
             ))}
           </div>
@@ -298,9 +339,9 @@ function PricingPage() {
               <Link to="/booking" className="btn-primary">
                 Book Appointment
               </Link>
-              <a href="https://wa.me/1234567890" className="btn-whatsapp">
+              <button onClick={() => sendToWhatsApp()} className="btn-whatsapp">
                 WhatsApp Us
-              </a>
+              </button>
             </div>
           </div>
         </div>
