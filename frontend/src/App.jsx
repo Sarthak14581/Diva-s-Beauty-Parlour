@@ -10,8 +10,8 @@ import AboutPage from "./pages/AboutPage";
 import PricingPage from "./pages/PricingPage";
 import TestimonialsPage from "./pages/TestimonialsPage";
 import ContactPage from "./pages/ContactPage";
-import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -26,10 +26,12 @@ function App() {
         <Route path="pricing" element={<PricingPage />} />
         <Route path="testimonials" element={<TestimonialsPage />} />
         <Route path="contact" element={<ContactPage />} />
-        <Route path="admin/login" element={<AdminLogin />} />
-        <Route path="admin/dashboard" element={<AdminDashboard />} />
-        <Route path="*" element={<NotFound />} />
       </Route>
+
+      <Route path="admin/login" element={<AdminLogin />} />
+      <Route path="admin/dashboard" element={<AdminDashboard />} />
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

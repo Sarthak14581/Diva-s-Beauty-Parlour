@@ -47,22 +47,79 @@ export const createBooking = async (req, res) => {
   }
 };
 
-// @desc    Get all bookings
+// @desc    Get all bookings (sorted: Pending first, then by createdAt)
 // @route   GET /api/bookings
 // @access  Public (can be protected later)
 export const getBookings = async (req, res) => {
   try {
+    const statusOrder = {
+      Pending: 1,
+      Confirmed: 2,
+      Completed: 3,
+      Cancelled: 4,
+    };
+
     const bookings = await Booking.find().sort({ createdAt: -1 });
+
+    // Sort bookings: Pending first, then by createdAt within each status
+    const sortedBookings = bookings.sort((a, b) => {
+      const statusDiff = statusOrder[a.status] - statusOrder[b.status];
+      if (statusDiff !== 0) return statusDiff;
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
 
     console.log(`📋 Fetched ${bookings.length} bookings`);
 
     res.status(200).json({
       success: true,
       count: bookings.length,
-      data: bookings,
+      data: sortedBookings,
     });
   } catch (error) {
     console.error("❌ Error fetching bookings:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error. Please try again later.",
+      error: error.message,
+    });
+  }
+};
+
+// @desc    Update booking status
+// @route   PUT /api/bookings/:id/status
+// @access  Public (can be protected later)
+export const updateBookingStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a status",
+      });
+    }
+
+    const booking = await Booking.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true, runValidators: true }
+    );
+
+    if (!booking) {
+      return res.status(404).json({
+        success: false,
+        message: "Booking not found",
+      });
+    }
+
+    console.log(`✅ Booking status updated: ${booking.name} - ${status}`);
+
+    res.status(200).json({
+      success: true,
+      data: booking,
+    });
+  } catch (error) {
+    console.error("❌ Error updating booking status:", error);
     res.status(500).json({
       success: false,
       message: "Server error. Please try again later.",

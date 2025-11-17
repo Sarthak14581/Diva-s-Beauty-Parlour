@@ -116,7 +116,7 @@ function BookingPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -132,7 +132,37 @@ function BookingPage() {
       return;
     }
 
-    setShowSuccess(true);
+    try {
+      const servicesText = formData.services.join(", ");
+
+      const response = await fetch("http://localhost:5000/api/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          service: servicesText,
+          date: formData.date,
+          time: formData.time,
+          name: formData.name,
+          phone: formData.phone,
+          notes: formData.notes || "",
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setShowSuccess(true);
+        console.log("✅ Booking saved to database:", result.data);
+      } else {
+        alert("Something went wrong. Please try again.");
+        console.error("❌ Booking error:", result.message);
+      }
+    } catch (error) {
+      console.error("❌ Server error:", error);
+      alert("Server error. Please try again later.");
+    }
   };
 
   const handleCloseSuccess = () => {
