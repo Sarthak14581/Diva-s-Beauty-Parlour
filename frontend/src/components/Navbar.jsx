@@ -70,6 +70,17 @@ function Navbar() {
           </li>
           <li className="navbar-item">
             <NavLink
+              to="/pricing"
+              className={({ isActive }) =>
+                isActive ? "navbar-link active" : "navbar-link"
+              }
+              onClick={closeMenu}
+            >
+              Pricing
+            </NavLink>
+          </li>
+          <li className="navbar-item">
+            <NavLink
               to="/contact"
               className={({ isActive }) =>
                 isActive ? "navbar-link active" : "navbar-link"
