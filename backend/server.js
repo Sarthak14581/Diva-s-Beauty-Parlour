@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
 
 dotenv.config();
 
@@ -16,21 +17,13 @@ app.use(express.urlencoded({ extended: true }));
 // Connect to MongoDB
 connectDB();
 
-// Routes (to be implemented)
+// Routes
 app.get("/api", (req, res) => {
   res.json({ message: "Diva's Parlour API is running" });
 });
 
-// Routes will be added here
-// import authRoutes from './routes/authRoutes.js';
-// import serviceRoutes from './routes/serviceRoutes.js';
-// import bookingRoutes from './routes/bookingRoutes.js';
-// import galleryRoutes from './routes/galleryRoutes.js';
-
-// app.use('/api/auth', authRoutes);
-// app.use('/api/services', serviceRoutes);
-// app.use('/api/bookings', bookingRoutes);
-// app.use('/api/gallery', galleryRoutes);
+// Booking Routes
+app.use("/api/bookings", bookingRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -39,5 +32,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📍 API: http://localhost:${PORT}/api`);
+  console.log(`📦 Bookings: http://localhost:${PORT}/api/bookings`);
 });
