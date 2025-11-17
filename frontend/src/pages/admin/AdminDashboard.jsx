@@ -321,26 +321,6 @@ function AdminDashboard() {
                       <option value="Completed">Completed</option>
                       <option value="Cancelled">Cancelled</option>
                     </select>
-                    <div className="action-buttons-row">
-                      <button
-                        onClick={() =>
-                          handleMoveToHistory(booking._id, "Completed")
-                        }
-                        className="btn-move-history"
-                        title="Mark as Completed"
-                      >
-                        ✅ Complete
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleMoveToHistory(booking._id, "Cancelled")
-                        }
-                        className="btn-move-cancel"
-                        title="Mark as Cancelled"
-                      >
-                        ❌ Cancel
-                      </button>
-                    </div>
                     <button
                       onClick={() => handleWhatsAppReply(booking)}
                       className="btn-whatsapp-reply"
