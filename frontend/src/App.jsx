@@ -12,6 +12,7 @@ import TestimonialsPage from "./pages/TestimonialsPage";
 import ContactPage from "./pages/ContactPage";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminHistory from "./pages/admin/AdminHistory";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
 
       <Route path="admin/login" element={<AdminLogin />} />
       <Route path="admin/dashboard" element={<AdminDashboard />} />
+      <Route path="admin/history" element={<AdminHistory />} />
 
       <Route path="*" element={<NotFound />} />
     </Routes>
