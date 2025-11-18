@@ -78,10 +78,22 @@ Thank you! ❤️
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Frontend only - just show alert for now
-    alert(
-      `Thank you, ${formData.name}! We'll contact you soon at ${formData.phone}.`
-    );
+
+    // Send message via WhatsApp instead
+    const message = `Hello! I'm ${formData.name}
+
+Phone: ${formData.phone}
+Service Interested: ${formData.service || "General inquiry"}
+
+Message: ${formData.message || "No message provided"}
+
+Thank you! ❤️`;
+
+    const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+
     // Reset form
     setFormData({
       name: "",
