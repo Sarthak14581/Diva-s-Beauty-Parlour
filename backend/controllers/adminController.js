@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken";
 export const loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    
 
     // Validate input
     if (!email || !password) {
@@ -19,8 +18,6 @@ export const loginAdmin = async (req, res) => {
 
     // Find admin by email
     const admin = await Admin.findOne({ email });
-    console.log(admin);
-    
 
     if (!admin) {
       return res.status(401).json({
@@ -42,11 +39,13 @@ export const loginAdmin = async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       { adminId: admin._id },
-      process.env.JWT_SECRET || "your_jwt_secret_key_here",
-      { expiresIn: "1d" }
+      process.env.JWT_SECRET || "fallback_secret_key_only_for_development",
+      { expiresIn: process.env.JWT_EXPIRE || "7d" }
     );
 
-    console.log(`✅ Admin logged in: ${admin.email}`);
+    if (process.env.NODE_ENV !== "production") {
+      console.log(`✅ Admin logged in: ${admin.email}`);
+    }
 
     res.status(200).json({
       success: true,
@@ -57,11 +56,13 @@ export const loginAdmin = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("❌ Login error:", error);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("❌ Login error:", error);
+    }
     res.status(500).json({
       success: false,
       message: "Server error. Please try again later.",
-      error: error.message,
+      error: process.env.NODE_ENV === "production" ? undefined : error.message,
     });
   }
 };
