@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/AdminLogin.css";
+import { API_ENDPOINTS } from "../../config/api";
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ function AdminLogin() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/admin/login", {
+      const response = await fetch(API_ENDPOINTS.adminLogin, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +47,7 @@ function AdminLogin() {
         setError(data.message || "Invalid credentials");
       }
     } catch (err) {
-      console.error("❌ Login error:", err);
+      console.error("Login error:", err);
       setError("Server error. Please try again later.");
     } finally {
       setLoading(false);

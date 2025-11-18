@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "../../components/AdminNavbar";
+import { API_ENDPOINTS } from "../../config/api";
 import "../../styles/AdminDashboard.css";
 
 function AdminHistory() {
@@ -26,7 +27,7 @@ function AdminHistory() {
     setLoading(true);
     try {
       const token = localStorage.getItem("adminToken");
-      const res = await fetch("http://localhost:5000/api/bookings", {
+      const res = await fetch(API_ENDPOINTS.bookings, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

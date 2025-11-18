@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { API_ENDPOINTS } from "../config/api";
 import "../styles/BookingPage.css";
 
 function BookingPage() {
@@ -135,7 +136,7 @@ function BookingPage() {
     try {
       const servicesText = formData.services.join(", ");
 
-      const response = await fetch("http://localhost:5000/api/bookings", {
+      const response = await fetch(API_ENDPOINTS.bookings, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -154,13 +155,11 @@ function BookingPage() {
 
       if (result.success) {
         setShowSuccess(true);
-        console.log("✅ Booking saved to database:", result.data);
       } else {
         alert("Something went wrong. Please try again.");
-        console.error("❌ Booking error:", result.message);
       }
     } catch (error) {
-      console.error("❌ Server error:", error);
+      console.error("Server error:", error);
       alert("Server error. Please try again later.");
     }
   };

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "../../components/AdminNavbar";
+import { API_ENDPOINTS } from "../../config/api";
 import "../../styles/AdminDashboard.css";
 
 function AdminDashboard() {
@@ -32,7 +33,7 @@ function AdminDashboard() {
         return;
       }
 
-      const res = await fetch("http://localhost:5000/api/bookings", {
+      const res = await fetch(API_ENDPOINTS.bookings, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -68,11 +69,9 @@ function AdminDashboard() {
     (b) => b.status === "Pending" || b.status === "Confirmed"
   );
 
-  const displayBookings = activeBookings;
-
   // Apply search, filter, and sort
   useEffect(() => {
-    let result = [...displayBookings];
+    let result = [...activeBookings];
 
     // Search
     if (searchQuery) {
@@ -99,7 +98,7 @@ function AdminDashboard() {
     }
 
     setFilteredBookings(result);
-  }, [searchQuery, filterStatus, sortBy, displayBookings]);
+  }, [searchQuery, filterStatus, sortBy, bookings]); // Changed: removed displayBookings, added bookings
 
   // Get today's bookings (only active bookings scheduled for today)
   const getTodayBookings = () => {
@@ -132,17 +131,14 @@ function AdminDashboard() {
     try {
       const token = localStorage.getItem("adminToken");
 
-      const res = await fetch(
-        `http://localhost:5000/api/bookings/${bookingId}/status`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ status: newStatus }),
-        }
-      );
+      const res = await fetch(API_ENDPOINTS.updateBookingStatus(bookingId), {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
 
       if (res.status === 401) {
         localStorage.removeItem("adminToken");
@@ -160,7 +156,7 @@ function AdminDashboard() {
         alert("Failed to update status");
       }
     } catch (error) {
-      console.error("❌ Error updating status:", error);
+      console.error("Error updating status:", error);
       alert("Error updating status");
     }
   };
