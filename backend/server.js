@@ -23,14 +23,17 @@ const PORT = process.env.PORT || 5000;
 // CORS configuration - supports both local and production
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://divas-parlour.vercel.app",
+  "https://divasbeautyparlour1.vercel.app", // Add your Vercel domain
   "https://www.divasparlour.com",
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
@@ -38,6 +41,7 @@ app.use(
     },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
