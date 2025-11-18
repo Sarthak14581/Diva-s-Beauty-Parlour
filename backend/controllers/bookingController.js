@@ -1,4 +1,4 @@
-import Booking from '../models/Booking.js';
+import Booking from "../models/Booking.js";
 
 // @desc    Create a new booking
 // @route   POST /api/bookings
@@ -11,7 +11,7 @@ export const createBooking = async (req, res) => {
     if (!service || !date || !time || !name || !phone) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide all required fields'
+        message: "Please provide all required fields",
       });
     }
 
@@ -22,31 +22,31 @@ export const createBooking = async (req, res) => {
       time,
       name,
       phone,
-      notes: notes || ''
+      notes: notes || "",
     });
 
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('✅ New booking created:', {
+    if (process.env.NODE_ENV !== "production") {
+      console.log("✅ New booking created:", {
         name,
         service,
         date,
-        time
+        time,
       });
     }
 
     res.status(201).json({
       success: true,
-      message: 'Booking created successfully',
-      data: booking
+      message: "Booking created successfully",
+      data: booking,
     });
   } catch (error) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error('❌ Error creating booking:', error);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("❌ Error creating booking:", error);
     }
     res.status(500).json({
       success: false,
-      message: 'Server error. Please try again later.',
-      error: process.env.NODE_ENV === 'production' ? undefined : error.message
+      message: "Server error. Please try again later.",
+      error: process.env.NODE_ENV === "production" ? undefined : error.message,
     });
   }
 };
@@ -56,10 +56,15 @@ export const createBooking = async (req, res) => {
 // @access  Protected
 export const getBookings = async (req, res) => {
   try {
-    const statusOrder = { 'Pending': 1, 'Confirmed': 2, 'Completed': 3, 'Cancelled': 4 };
-    
+    const statusOrder = {
+      Pending: 1,
+      Confirmed: 2,
+      Completed: 3,
+      Cancelled: 4,
+    };
+
     const bookings = await Booking.find().sort({ createdAt: -1 });
-    
+
     // Sort bookings: Pending first, then by createdAt within each status
     const sortedBookings = bookings.sort((a, b) => {
       const statusDiff = statusOrder[a.status] - statusOrder[b.status];
@@ -67,23 +72,23 @@ export const getBookings = async (req, res) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
 
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== "production") {
       console.log(`📋 Fetched ${bookings.length} bookings`);
     }
 
     res.status(200).json({
       success: true,
       count: bookings.length,
-      data: sortedBookings
+      data: sortedBookings,
     });
   } catch (error) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error('❌ Error fetching bookings:', error);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("❌ Error fetching bookings:", error);
     }
     res.status(500).json({
       success: false,
-      message: 'Server error. Please try again later.',
-      error: process.env.NODE_ENV === 'production' ? undefined : error.message
+      message: "Server error. Please try again later.",
+      error: process.env.NODE_ENV === "production" ? undefined : error.message,
     });
   }
 };
@@ -98,7 +103,7 @@ export const updateBookingStatus = async (req, res) => {
     if (!status) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide a status'
+        message: "Please provide a status",
       });
     }
 
@@ -111,26 +116,26 @@ export const updateBookingStatus = async (req, res) => {
     if (!booking) {
       return res.status(404).json({
         success: false,
-        message: 'Booking not found'
+        message: "Booking not found",
       });
     }
 
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== "production") {
       console.log(`✅ Booking status updated: ${booking.name} - ${status}`);
     }
 
     res.status(200).json({
       success: true,
-      data: booking
+      data: booking,
     });
   } catch (error) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error('❌ Error updating booking status:', error);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("❌ Error updating booking status:", error);
     }
     res.status(500).json({
       success: false,
-      message: 'Server error. Please try again later.',
-      error: process.env.NODE_ENV === 'production' ? undefined : error.message
+      message: "Server error. Please try again later.",
+      error: process.env.NODE_ENV === "production" ? undefined : error.message,
     });
   }
 };
